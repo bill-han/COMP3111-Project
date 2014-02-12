@@ -1,3 +1,3 @@
-COMP3111 Project: NoT3r
+COMP3111 Project: NoT3r!
 
 A Note+TODO app on Android
