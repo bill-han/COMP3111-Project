@@ -3,8 +3,14 @@
 
     <string name="app_name">Not3r!</string>
     <string name="action_settings">Settings</string>
-    <string name="hint">Search..</string>
     <string name="drawer_open">open drawer</string>
     <string name="drawer_close">close drawer</string>
+    <string name="action_new">New</string>
+    <string name="editor_title">Editor</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="share">Share</string>
+    <string name="set_alarm">Set an alarm</string>
+    <string name="color_change">Change color</string>
+    <string name="delete">Delete</string>
 
 </resources>

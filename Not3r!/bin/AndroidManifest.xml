@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.not3r.Editor"
+            android:label="@string/editor_title"
+            android:parentActivityName="com.example.not3r.NoteList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.not3r.NoteList" />
+        </activity>
     </application>
 
 </manifest>
