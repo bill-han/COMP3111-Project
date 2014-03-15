@@ -10,20 +10,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <SearchView
-            android:id="@+id/note_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:inputType="textFilter" >
-        </SearchView>
-
         <ListView
             android:id="@+id/note_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
         </ListView>
     </LinearLayout>
 

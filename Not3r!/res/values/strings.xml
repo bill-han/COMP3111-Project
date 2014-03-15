@@ -12,5 +12,6 @@
     <string name="set_alarm">Set an alarm</string>
     <string name="color_change">Change color</string>
     <string name="delete">Delete</string>
+    <string name="action_search">Search</string>
 
 </resources>
