@@ -27,6 +27,10 @@ public class NoteList extends Activity {
 	private SQLiteDatabase db;
 	private Cursor c;
 
+	//=========
+	private SimpleCursorAdapter adapter;
+	private ListView noteList;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,10 +56,10 @@ public class NoteList extends Activity {
 		c.moveToFirst();
 		String[] from = { NoteDatabase.COLUMN_CONTENT };
 		int[] to = { R.id.item };
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+		adapter = new SimpleCursorAdapter(this,
 				R.layout.item_view, c, from, to, 0);
 		
-		ListView noteList = (ListView) findViewById(R.id.note_list);
+		noteList = (ListView) findViewById(R.id.note_list);
 		noteList.setAdapter(adapter);
 		noteList.setOnCreateContextMenuListener(this);
 	}
@@ -75,6 +79,8 @@ public class NoteList extends Activity {
 		case 0:
 			mDBHelper.delete(c.getInt(0));
 			Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
+			//=============
+			refreshList();
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -122,4 +128,23 @@ public class NoteList extends Activity {
 		startActivity(intent);
 	}
 
+	//======
+	public void refreshList()
+	{
+		String[] columns = { NoteDatabase.COLUMN_ID + " AS _id",
+				NoteDatabase.COLUMN_COLOR, NoteDatabase.COLUMN_CONTENT,
+				NoteDatabase.COLUMN_TIME, NoteDatabase.COLUMN_IMPORTANT };
+		String sortOrder = NoteDatabase.COLUMN_ID + " DESC";
+		c = db.query(NoteDatabase.TABLE_NAME, columns, null, null, null,
+				null, sortOrder);
+		c.moveToFirst();
+		String[] from = { NoteDatabase.COLUMN_CONTENT };
+		int[] to = { R.id.item };
+		adapter = new SimpleCursorAdapter(this,
+				R.layout.item_view, c, from, to, 0);
+		
+		noteList = (ListView) findViewById(R.id.note_list);
+		noteList.setAdapter(adapter);
+		noteList.setOnCreateContextMenuListener(this);
+	}
 }

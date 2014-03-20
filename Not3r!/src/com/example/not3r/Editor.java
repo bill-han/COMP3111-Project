@@ -15,6 +15,9 @@ public class Editor extends Activity {
 	private EditText editing;
 	private NoteDatabase mDBHelper;
 
+	//===========
+	private boolean checkSave = false;
+	
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,11 @@ public class Editor extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
+			if (editing.getText().toString().length() > 0) {
+				mDBHelper.insert("red", editing.getText().toString());
+				checkSave = true;
+				Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+			}
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.share:
@@ -52,10 +60,12 @@ public class Editor extends Activity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (editing.getText().toString().length() > 0) {
-			mDBHelper.insert("red", editing.getText().toString());
-			Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
-		}
+		if(checkSave == false)
+			if (editing.getText().toString().length() > 0) {
+				mDBHelper.insert("red", editing.getText().toString());
+				checkSave = true;
+				Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+			}
 	}
 
 }
