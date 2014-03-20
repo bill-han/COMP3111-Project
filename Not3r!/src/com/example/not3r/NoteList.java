@@ -1,5 +1,11 @@
 package com.example.not3r;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -30,6 +37,10 @@ public class NoteList extends Activity {
 	//=========
 	private SimpleCursorAdapter adapter;
 	private ListView noteList;
+	
+	String columnsString = " id AS _id, color , content, lastmodifiedtime, important ";
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +73,19 @@ public class NoteList extends Activity {
 		noteList = (ListView) findViewById(R.id.note_list);
 		noteList.setAdapter(adapter);
 		noteList.setOnCreateContextMenuListener(this);
+		
+		noteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+	        public void onItemClick(AdapterView<?> av, View view, int position, long id) {
+
+	    		Intent intent = new Intent(NoteList.this, Editor.class);
+
+	    		Bundle bundle = new Bundle();
+	    		bundle.putLong("rowId", id);
+	    		intent.putExtras(bundle);
+	    		
+	    		startActivity(intent);
+	        }
+	    });
 	}
 
 	@Override
@@ -86,6 +110,7 @@ public class NoteList extends Activity {
 			return super.onContextItemSelected(item);
 		}
 	}
+	
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -115,7 +140,8 @@ public class NoteList extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -124,7 +150,18 @@ public class NoteList extends Activity {
 	}
 
 	public void newNote() {
+		
+		mDBHelper.insert("RED", "");
+		Cursor cs = db.rawQuery("SELECT MAX(id) FROM note", null);
+		cs.moveToFirst();
+		int intId = Integer.parseInt(cs.getString(0));
+		
 		Intent intent = new Intent(this, Editor.class);
+		Bundle bundle = new Bundle();
+		bundle.putLong("rowId", intId);
+		intent.putExtras(bundle);
+	//	Toast.makeText(this, "fsad" +cs.getString(0) , Toast.LENGTH_SHORT).show();
+		
 		startActivity(intent);
 	}
 

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class NoteDatabase extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "not3r.db";
-	private static int DATABASE_VERSION = 1;
+	private static int DATABASE_VERSION = 3;
 	public static final String TABLE_NAME = "note";
 	public static final String COLUMN_ID = "id";
 	public static final String COLUMN_COLOR = "color";
