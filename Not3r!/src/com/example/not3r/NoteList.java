@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -49,7 +50,7 @@ public class NoteList extends Activity {
 //	private EditText invisibleText;
 	
 	private SearchView sv ;
-	private String searchString;
+	private String searchString ="";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -117,7 +118,7 @@ public class NoteList extends Activity {
 			mDBHelper.delete(c.getInt(0));
 			Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
 			//=============
-			refreshList();
+			searchList(searchString);
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -204,7 +205,7 @@ public class NoteList extends Activity {
 	}
 
 	//======
-	public void refreshList()
+/*	public void refreshList()
 	{
 		String[] columns = { NoteDatabase.COLUMN_ID + " AS _id",
 				NoteDatabase.COLUMN_COLOR, NoteDatabase.COLUMN_CONTENT,
@@ -223,6 +224,7 @@ public class NoteList extends Activity {
 		noteList.setOnCreateContextMenuListener(this);
 		searchList(searchString);
 	}
+	*/
 	
 	//============
 	public void searchList(String s)
@@ -237,6 +239,8 @@ public class NoteList extends Activity {
 		noteList = (ListView) findViewById(R.id.note_list);
 		noteList.setAdapter(adapter);
 		noteList.setOnCreateContextMenuListener(this);
+		
+		
 	}
 	
 	public void testToast()
@@ -247,6 +251,11 @@ public class NoteList extends Activity {
 	public void testToast(String s)
 	{
 		Toast.makeText(this, s , Toast.LENGTH_SHORT).show();
+		
+	}
+	public void testToast(int s)
+	{
+		Toast.makeText(this, ""+s , Toast.LENGTH_SHORT).show();
 		
 	}
 }
