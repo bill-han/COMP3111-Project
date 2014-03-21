@@ -1,12 +1,12 @@
 package com.example.not3r;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
 
 
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -19,9 +19,11 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
@@ -38,10 +40,16 @@ public class NoteList extends Activity {
 	private SimpleCursorAdapter adapter;
 	private ListView noteList;
 	
-	String columnsString = " id AS _id, color , content, lastmodifiedtime, important ";
 	
 	
+	String columnsString = "SELECT id AS _id, color , content, lastmodifiedtime, important FROM note ";
 	
+	
+	//==========
+//	private EditText invisibleText;
+	
+	private SearchView sv ;
+	private String searchString;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,6 +94,11 @@ public class NoteList extends Activity {
 	    		startActivity(intent);
 	        }
 	    });
+		
+		
+		//================
+	//	invisibleText = (EditText)findViewById(R.id.myFilter);
+	//	invisibleText.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -137,6 +150,25 @@ public class NoteList extends Activity {
 		case R.id.add_note:
 			newNote();
 			return true;
+		case R.id.search:
+			// search 
+			
+			sv.setOnQueryTextListener(new SearchView.OnQueryTextListener( ) {
+			    @Override
+			    public boolean   onQueryTextChange( String newText ) {
+			    	searchString = newText;
+	//		    	testToast(newText);
+					searchList(newText);
+			    	return false;
+			    }
+
+			    @Override
+			    public boolean   onQueryTextSubmit(String query) {
+					return false;
+			    }
+			}); 
+			
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -146,6 +178,12 @@ public class NoteList extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.list_actions, menu);
+
+		//=============================
+	    // Get the SearchView and set the searchable configuration
+	//    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    sv = (SearchView) menu.findItem(R.id.search).getActionView();
+	    
 		return true;
 	}
 
@@ -183,5 +221,32 @@ public class NoteList extends Activity {
 		noteList = (ListView) findViewById(R.id.note_list);
 		noteList.setAdapter(adapter);
 		noteList.setOnCreateContextMenuListener(this);
+		searchList(searchString);
+	}
+	
+	//============
+	public void searchList(String s)
+	{
+		c = db.rawQuery(columnsString +" WHERE content LIKE '%" +s+"%' ORDER BY _id DESC",null);
+		c.moveToFirst();
+		String[] from = { NoteDatabase.COLUMN_CONTENT };
+		int[] to = { R.id.item };
+		adapter = new SimpleCursorAdapter(this,
+				R.layout.item_view, c, from, to, 0);
+		
+		noteList = (ListView) findViewById(R.id.note_list);
+		noteList.setAdapter(adapter);
+		noteList.setOnCreateContextMenuListener(this);
+	}
+	
+	public void testToast()
+	{
+		Toast.makeText(this, "fsad" , Toast.LENGTH_SHORT).show();
+		
+	}
+	public void testToast(String s)
+	{
+		Toast.makeText(this, s , Toast.LENGTH_SHORT).show();
+		
 	}
 }
