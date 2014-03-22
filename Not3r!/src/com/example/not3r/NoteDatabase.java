@@ -57,4 +57,11 @@ public class NoteDatabase extends SQLiteOpenHelper {
 		db.execSQL(sql);
 	}
 
+	public void update(int id,  String content) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		String sql = "update " + TABLE_NAME + " set " + COLUMN_CONTENT + "='" + content + "', "
+				+ COLUMN_TIME + "=datetime('now') where " + COLUMN_ID + "="
+				+ Integer.toString(id);
+		db.execSQL(sql);
+	}
 }

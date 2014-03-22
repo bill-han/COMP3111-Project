@@ -60,7 +60,7 @@ public class Editor extends Activity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			if (editing.getText().toString().length() > 0) {
-				mDBHelper.update(intId, "red", editing.getText().toString());
+				mDBHelper.update(intId,  editing.getText().toString());
 				checkSave = true;
 				Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
 			}
@@ -86,7 +86,7 @@ public class Editor extends Activity {
 		super.onStop();
 		if(checkSave == false)
 			if (editing.getText().toString().length() > 0) {
-				mDBHelper.update(intId, "red", editing.getText().toString());
+				mDBHelper.update(intId, editing.getText().toString());
 				checkSave = true;
 				Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
 			}

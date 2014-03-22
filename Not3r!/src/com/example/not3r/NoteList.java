@@ -5,8 +5,6 @@ package com.example.not3r;
 
 
 import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -20,9 +18,9 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
@@ -77,7 +75,37 @@ public class NoteList extends Activity {
 		String[] from = { NoteDatabase.COLUMN_CONTENT };
 		int[] to = { R.id.item };
 		adapter = new SimpleCursorAdapter(this,
-				R.layout.item_view, c, from, to, 0);
+				R.layout.item_view, c, from, to, 0){
+				@Override 
+				public View getView(int position, View convertView, ViewGroup parent) {  
+			 
+				//get reference to the row
+				View view = super.getView(position, convertView, parent); 
+				//check for odd or even to set alternate colors to the row background
+				long id = noteList.getItemIdAtPosition(position);
+				Cursor cs = db.rawQuery("SELECT color FROM note WHERE id ="+id, null);
+				cs.moveToFirst();
+				
+				String color = cs.getString(0);
+				// testToast(color);
+				if(color.equals("red")|| color.equals("RED"))
+				{
+					view.setBackgroundColor(Color.rgb(255, 0, 0));
+				}
+				else if(color.equals("green"))
+				{
+					view.setBackgroundColor(Color.rgb(0, 255, 0));
+				}
+				else if(color.equals("blue"))
+				{
+					view.setBackgroundColor(Color.rgb(0, 0, 255));
+				}
+				else
+					view.setBackgroundColor(Color.rgb(255, 255, 255));
+
+			   return view;  
+			  }  
+		};
 		
 		noteList = (ListView) findViewById(R.id.note_list);
 		noteList.setAdapter(adapter);
@@ -93,6 +121,7 @@ public class NoteList extends Activity {
 	    		intent.putExtras(bundle);
 	    		
 	    		startActivity(intent);
+	    		
 	        }
 	    });
 		
@@ -100,6 +129,11 @@ public class NoteList extends Activity {
 		//================
 	//	invisibleText = (EditText)findViewById(R.id.myFilter);
 	//	invisibleText.setVisibility(View.GONE);
+			
+		int red = 50;
+		int green = 255;
+		int blue = 40;
+	//	testToast(Color.rgb(red, green, blue));
 	}
 
 	@Override
@@ -190,7 +224,7 @@ public class NoteList extends Activity {
 
 	public void newNote() {
 		
-		mDBHelper.insert("RED", "");
+		mDBHelper.insert("green", "");
 		Cursor cs = db.rawQuery("SELECT MAX(id) FROM note", null);
 		cs.moveToFirst();
 		int intId = Integer.parseInt(cs.getString(0));
@@ -234,7 +268,37 @@ public class NoteList extends Activity {
 		String[] from = { NoteDatabase.COLUMN_CONTENT };
 		int[] to = { R.id.item };
 		adapter = new SimpleCursorAdapter(this,
-				R.layout.item_view, c, from, to, 0);
+				R.layout.item_view, c, from, to, 0){
+			@Override 
+			public View getView(int position, View convertView, ViewGroup parent) {  
+		 
+			//get reference to the row
+			View view = super.getView(position, convertView, parent); 
+			//check for odd or even to set alternate colors to the row background
+			long id = noteList.getItemIdAtPosition(position);
+			Cursor cs = db.rawQuery("SELECT color FROM note WHERE id ="+id, null);
+			cs.moveToFirst();
+			
+			String color = cs.getString(0);
+			// testToast(color);
+			if(color.equals("red") || color.equals("RED") )
+			{
+				view.setBackgroundColor(Color.rgb(255, 0, 0));
+			}
+			else if(color.equals("green"))
+			{
+				view.setBackgroundColor(Color.rgb(0, 255, 0));
+			}
+			else if(color.equals("blue"))
+			{
+				view.setBackgroundColor(Color.rgb(0, 0, 255));
+			}
+			else
+				view.setBackgroundColor(Color.rgb(255, 255, 255));
+
+		   return view;  
+		  }  
+	};
 		
 		noteList = (ListView) findViewById(R.id.note_list);
 		noteList.setAdapter(adapter);
