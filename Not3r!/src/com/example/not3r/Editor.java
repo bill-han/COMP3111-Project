@@ -96,4 +96,18 @@ public class Editor extends Activity {
 			}
 	}
 
+	@Override
+	public void onBackPressed() {
+		if(checkSave == false)
+			if (editing.getText().toString().length() > 0) {
+				mDBHelper.update(intId, editing.getText().toString());
+				checkSave = true;
+				Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+			}
+			else 
+			{
+				mDBHelper.delete(intId);
+			}
+		NavUtils.navigateUpFromSameTask(this);
+	}
 }
