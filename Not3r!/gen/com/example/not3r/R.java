@@ -28,19 +28,23 @@ public final class R {
         public static final int ic_action_share=0x7f020004;
         public static final int ic_drawer=0x7f020005;
         public static final int ic_launcher=0x7f020006;
+        public static final int star=0x7f020007;
+        public static final int staroff=0x7f020008;
+        public static final int staron=0x7f020009;
     }
     public static final class id {
-        public static final int add_note=0x7f08000a;
-        public static final int color_change=0x7f080005;
-        public static final int delete=0x7f080008;
-        public static final int drawer_layout=0x7f080002;
+        public static final int add_note=0x7f08000b;
+        public static final int color_change=0x7f080006;
+        public static final int delete=0x7f080009;
+        public static final int drawer_layout=0x7f080003;
         public static final int editor=0x7f080000;
-        public static final int item=0x7f080001;
-        public static final int left_drawer=0x7f080004;
-        public static final int note_list=0x7f080003;
-        public static final int search=0x7f080009;
-        public static final int set_alarm=0x7f080006;
-        public static final int share=0x7f080007;
+        public static final int favorite=0x7f080001;
+        public static final int item=0x7f080002;
+        public static final int left_drawer=0x7f080005;
+        public static final int note_list=0x7f080004;
+        public static final int search=0x7f08000a;
+        public static final int set_alarm=0x7f080007;
+        public static final int share=0x7f080008;
     }
     public static final class layout {
         public static final int editor_view=0x7f030000;
@@ -58,6 +62,7 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int color_change=0x7f050009;
         public static final int delete=0x7f05000a;
+        public static final int description=0x7f05000c;
         public static final int drawer_close=0x7f050003;
         public static final int drawer_open=0x7f050002;
         public static final int editor_title=0x7f050005;

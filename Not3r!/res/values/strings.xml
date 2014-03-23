@@ -13,5 +13,6 @@
     <string name="color_change">Change color</string>
     <string name="delete">Delete</string>
     <string name="action_search">Search</string>
+    <string name="description">Description</string>
 
 </resources>

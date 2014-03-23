@@ -322,4 +322,13 @@ public class NoteList extends Activity {
 		Toast.makeText(this, ""+s , Toast.LENGTH_SHORT).show();
 		
 	}
+	
+	public void selected(View v){
+		if(v.isSelected()){
+			v.setSelected(false);
+		}else{
+			v.setSelected(true);
+			Toast.makeText(this, "Set as Favourite", Toast.LENGTH_SHORT).show();
+		}
+	}
 }
