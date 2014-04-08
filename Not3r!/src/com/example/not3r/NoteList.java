@@ -18,9 +18,12 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
@@ -38,8 +41,10 @@ public class NoteList extends Activity {
 	//=========
 	private SimpleCursorAdapter adapter;
 	private ListView noteList;
+	private ListView lstDrawer;
 	
-	
+	//private View v = findViewById(R.id.favorite);
+	 private ImageButton starbtn;
 	
 	String columnsString = "SELECT id AS _id, color , content, lastmodifiedtime, important FROM note ";
 	
@@ -59,7 +64,9 @@ public class NoteList extends Activity {
 				R.string.drawer_close);
 		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+		lstDrawer = (ListView) findViewById(R.id.left_drawer);
+		initDrawerList();
+		lstDrawer.setOnItemClickListener(new SlideMenuClickListener());
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mDBHelper = new NoteDatabase(this);
@@ -94,7 +101,7 @@ public class NoteList extends Activity {
 				}
 				else if(color.equals("green"))
 				{
-					view.setBackgroundColor(Color.rgb(0, 255, 0));
+					view.setBackgroundColor(Color.rgb(170, 225, 245));
 				}
 				else if(color.equals("blue"))
 				{
@@ -123,8 +130,11 @@ public class NoteList extends Activity {
 	    		startActivity(intent);
 	    		
 	        }
-	    });
-		
+	    
+	        
+			
+		});
+		//isFavorite(v);
 		
 		//================
 	//	invisibleText = (EditText)findViewById(R.id.myFilter);
@@ -224,7 +234,7 @@ public class NoteList extends Activity {
 
 	public void newNote() {
 		
-		mDBHelper.insert("green", "");
+		mDBHelper.insert("green", "", 0);
 		Cursor cs = db.rawQuery("SELECT MAX(id) FROM note", null);
 		cs.moveToFirst();
 		int intId = Integer.parseInt(cs.getString(0));
@@ -274,6 +284,14 @@ public class NoteList extends Activity {
 		 
 			//get reference to the row
 			View view = super.getView(position, convertView, parent); 
+		//	starbtn.setTag(position);
+			
+			/*
+			ImageButton b = (ImageButton)view.findViewById(R.id.favorite);
+			String tag = b.getTag().toString() + " , " + position;
+			b.setTag(tag);
+			
+			*/
 			//check for odd or even to set alternate colors to the row background
 			long id = noteList.getItemIdAtPosition(position);
 			Cursor cs = db.rawQuery("SELECT color FROM note WHERE id ="+id, null);
@@ -287,7 +305,7 @@ public class NoteList extends Activity {
 			}
 			else if(color.equals("green"))
 			{
-				view.setBackgroundColor(Color.rgb(0, 255, 0));
+				view.setBackgroundColor(Color.rgb(170, 225, 245));
 			}
 			else if(color.equals("blue"))
 			{
@@ -307,6 +325,32 @@ public class NoteList extends Activity {
 		
 	}
 	
+	private void initDrawerList(){
+        String[] drawer_menu = this.getResources().getStringArray(R.array.drawer_menu);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, drawer_menu);
+        lstDrawer.setAdapter(adapter);
+    }
+	
+	private class SlideMenuClickListener implements ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		    displayView(position);
+		}
+	}
+	
+	private void displayView(int position) {
+        switch (position) {
+	        case 0:
+	        	searchList("");
+	        	break;
+	        case 1:
+	        	searchList("e");
+	        	break;
+	        default:
+	        	break;
+	        }
+        }
+	
 	public void testToast()
 	{
 		Toast.makeText(this, "fsad" , Toast.LENGTH_SHORT).show();
@@ -323,12 +367,15 @@ public class NoteList extends Activity {
 		
 	}
 	
-	public void selected(View v){
+	public void isFavorite(View v){
+		
 		if(v.isSelected()){
 			v.setSelected(false);
 		}else{
 			v.setSelected(true);
-			Toast.makeText(this, "Set as Favourite", Toast.LENGTH_SHORT).show();
-		}
+			//mDBHelper.setImportant(c.getColumnIndex(KEY_ROWID);, 0);
+			//Toast.makeText(this, "Set as Favourite", Toast.LENGTH_SHORT).show();
+
+		
 	}
-}
+	}}

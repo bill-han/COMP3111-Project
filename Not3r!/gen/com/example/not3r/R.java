@@ -8,6 +8,9 @@
 package com.example.not3r;
 
 public final class R {
+    public static final class array {
+        public static final int drawer_menu=0x7f060000;
+    }
     public static final class attr {
     }
     public static final class dimen {
@@ -33,27 +36,29 @@ public final class R {
         public static final int staron=0x7f020009;
     }
     public static final class id {
-        public static final int add_note=0x7f08000b;
-        public static final int color_change=0x7f080006;
-        public static final int delete=0x7f080009;
-        public static final int drawer_layout=0x7f080003;
-        public static final int editor=0x7f080000;
-        public static final int favorite=0x7f080001;
-        public static final int item=0x7f080002;
-        public static final int left_drawer=0x7f080005;
-        public static final int note_list=0x7f080004;
-        public static final int search=0x7f08000a;
-        public static final int set_alarm=0x7f080007;
-        public static final int share=0x7f080008;
+        public static final int add_note=0x7f09000c;
+        public static final int color_change=0x7f090007;
+        public static final int delete=0x7f09000a;
+        public static final int drawer_layout=0x7f090004;
+        public static final int editor=0x7f090001;
+        public static final int favorite=0x7f090002;
+        public static final int item=0x7f090003;
+        public static final int left_drawer=0x7f090006;
+        public static final int note_list=0x7f090005;
+        public static final int search=0x7f09000b;
+        public static final int set_alarm=0x7f090008;
+        public static final int share=0x7f090009;
+        public static final int txtItem=0x7f090000;
     }
     public static final class layout {
-        public static final int editor_view=0x7f030000;
-        public static final int item_view=0x7f030001;
-        public static final int main_view=0x7f030002;
+        public static final int drawer_list_item=0x7f030000;
+        public static final int editor_view=0x7f030001;
+        public static final int item_view=0x7f030002;
+        public static final int main_view=0x7f030003;
     }
     public static final class menu {
-        public static final int editor_actions=0x7f070000;
-        public static final int list_actions=0x7f070001;
+        public static final int editor_actions=0x7f080000;
+        public static final int list_actions=0x7f080001;
     }
     public static final class string {
         public static final int action_new=0x7f050004;
@@ -92,10 +97,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
+        public static final int AppTheme=0x7f070001;
     }
 }

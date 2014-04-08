@@ -14,5 +14,8 @@
     <string name="delete">Delete</string>
     <string name="action_search">Search</string>
     <string name="description">Description</string>
-
+	<string-array name="drawer_menu">
+    	<item>All</item>
+    	<item>Important</item>
+	</string-array>
 </resources>

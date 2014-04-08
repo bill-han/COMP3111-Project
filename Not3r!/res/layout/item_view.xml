@@ -11,7 +11,7 @@
         android:layout_height="fill_parent"
         android:src="@drawable/star"
         android:background="#00ffffff"
-        android:onClick="selected"
+        android:onClick="isFavorite"
         android:contentDescription="@string/description"/>
 
 <TextView

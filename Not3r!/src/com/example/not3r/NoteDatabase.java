@@ -32,12 +32,12 @@ public class NoteDatabase extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	}
 
-	public void insert(String color, String content) {
+	public void insert(String color, String content, int important) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		String sql = "insert into " + TABLE_NAME + "(" + COLUMN_COLOR + ", "
 				+ COLUMN_CONTENT + ", " + COLUMN_TIME + ", " + COLUMN_IMPORTANT
 				+ ") values('" + color + "','" + content
-				+ "',datetime('now'),0)";
+				+ "',datetime('now'), "+important+")";
 		db.execSQL(sql);
 	}
 
@@ -60,6 +60,14 @@ public class NoteDatabase extends SQLiteOpenHelper {
 	public void update(int id,  String content) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		String sql = "update " + TABLE_NAME + " set " + COLUMN_CONTENT + "='" + content + "', "
+				+ COLUMN_TIME + "=datetime('now') where " + COLUMN_ID + "="
+				+ Integer.toString(id);
+		db.execSQL(sql);
+	}
+	
+	public void setImportant(int id, int important) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		String sql = "update " + TABLE_NAME + " set " + COLUMN_IMPORTANT + "='" + important + "', "
 				+ COLUMN_TIME + "=datetime('now') where " + COLUMN_ID + "="
 				+ Integer.toString(id);
 		db.execSQL(sql);
