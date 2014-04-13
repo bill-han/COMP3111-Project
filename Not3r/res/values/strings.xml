@@ -13,6 +13,14 @@
     <string name="color_change">Change color</string>
     <string name="delete">Delete</string>
     <string name="action_search">Search</string>
+<<<<<<< HEAD:Not3r/res/values/strings.xml
     <string name="description">Important</string>
 
+=======
+    <string name="description">Description</string>
+	<string-array name="drawer_menu">
+    	<item>All</item>
+    	<item>Important</item>
+	</string-array>
+>>>>>>> FETCH_HEAD:Not3r!/res/values/strings.xml
 </resources>

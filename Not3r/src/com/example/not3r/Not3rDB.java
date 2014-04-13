@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Not3rDB extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "not3r.db";
-	private static int DATABASE_VERSION = 1;
+	private static int DATABASE_VERSION = 3;
 	public static final String TABLE_NAME = "note";
 	public static final String COLUMN_ID = "id";
 	public static final String COLUMN_COLOR = "color";
@@ -32,12 +32,12 @@ public class Not3rDB extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	}
 
-	public void insert(String color, String content) {
+	public void insert(String color, String content, int important) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		String sql = "insert into " + TABLE_NAME + "(" + COLUMN_COLOR + ", "
 				+ COLUMN_CONTENT + ", " + COLUMN_TIME + ", " + COLUMN_IMPORTANT
 				+ ") values('" + color + "','" + content
-				+ "',datetime('now'),0)";
+				+ "',datetime('now'), "+important+")";
 		db.execSQL(sql);
 	}
 
@@ -57,4 +57,19 @@ public class Not3rDB extends SQLiteOpenHelper {
 		db.execSQL(sql);
 	}
 
+	public void update(int id,  String content) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		String sql = "update " + TABLE_NAME + " set " + COLUMN_CONTENT + "='" + content + "', "
+				+ COLUMN_TIME + "=datetime('now') where " + COLUMN_ID + "="
+				+ Integer.toString(id);
+		db.execSQL(sql);
+	}
+	
+	public void setImportant(int id, int important) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		String sql = "update " + TABLE_NAME + " set " + COLUMN_IMPORTANT + "='" + important + "', "
+				+ COLUMN_TIME + "=datetime('now') where " + COLUMN_ID + "="
+				+ Integer.toString(id);
+		db.execSQL(sql);
+	}
 }

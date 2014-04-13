@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Not3r/res/layout/drawer_list_item.xml
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_list_item"
@@ -11,3 +12,35 @@
     android:textSize="25sp" >
 
 </TextView>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants">
+
+<ImageButton 
+    	android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:src="@drawable/star"
+        android:background="#00ffffff"
+        android:onClick="isFavorite"
+        android:contentDescription="@string/description"/>
+
+<TextView
+    android:id="@+id/item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:maxLines="1"
+    android:paddingBottom="15sp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="15sp"
+    android:textSize="25sp" >
+
+</TextView>
+</LinearLayout>
+>>>>>>> FETCH_HEAD:Not3r!/res/layout/item_view.xml
