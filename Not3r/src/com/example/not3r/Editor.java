@@ -28,6 +28,8 @@ public class Editor extends Activity {
 	private long id;
 	private String content = "",
 			color = Note.colorSet[new Random().nextInt(4)];
+	private long colorNum = 0;
+	private long colorSelected = 0;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -66,6 +68,19 @@ public class Editor extends Activity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();
+			return true;
+		case R.id.color_change:
+			colorNum++;
+			colorSelected = colorNum % 4;
+			if(colorSelected == 0)
+				color = "#A8DFF4";
+			else if (colorSelected == 1)
+				color = "#D3E992";
+			else if (colorSelected == 2)
+				color = "#FFECC0";
+			else
+				color = "#FFAFAF";
+			layout.setBackgroundColor(Color.parseColor(color));
 			return true;
 		case R.id.share:
 			Intent sendIntent = new Intent();

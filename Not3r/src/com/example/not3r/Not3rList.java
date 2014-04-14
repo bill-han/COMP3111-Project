@@ -36,7 +36,7 @@ public class Not3rList extends Activity {
 	private ListView noteList;
 	private SearchView sv;
 
-	private String[] menu = { "All", "Blue", "Green", "Yellow", "Red",
+	private String[] menu = { "All", "Blue", "Green", "Pink", "Red",
 			"Important" };
 
 	@Override
@@ -187,6 +187,7 @@ public class Not3rList extends Activity {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			selectItem(position);
+			mDrawerLayout.closeDrawers();
 		}
 	}
 
