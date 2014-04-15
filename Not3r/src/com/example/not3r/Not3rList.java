@@ -36,7 +36,7 @@ public class Not3rList extends Activity {
 	private ListView noteList;
 	private SearchView sv;
 
-	private String[] menu = { "All", "Blue", "Green", "Pink", "Red",
+	private String[] menu = { "All", "Blue", "Green", "Yellow", "Pink",
 			"Important" };
 
 	@Override
