@@ -1,0 +1,9 @@
+# view res/layout/main_view.xml #generated:1
+-keep class android.support.v4.widget.DrawerLayout { <init>(...); }
+
+# view AndroidManifest.xml #generated:25
+-keep class com.example.not3r.Editor { <init>(...); }
+
+# view AndroidManifest.xml #generated:16
+-keep class com.example.not3r.Not3rList { <init>(...); }
+
