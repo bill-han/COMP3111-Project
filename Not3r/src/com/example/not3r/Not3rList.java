@@ -149,11 +149,8 @@ public class Not3rList extends Activity {
 	}
 
 	public void filterList(String selection, String keyword) {
-		String[] columns = { Not3rDB.COLUMN_ID + " AS _id",
-				Not3rDB.COLUMN_COLOR, Not3rDB.COLUMN_CONTENT,
-				Not3rDB.COLUMN_TIME, Not3rDB.COLUMN_IMPORTANT };
-		String orderBy = Not3rDB.COLUMN_TIME + " DESC";
-		c = db.query(Not3rDB.TABLE_NAME, columns, selection + " LIKE ?",
+		String orderBy = Not3rDB.COLUMN_TIME + " desc";
+		c = db.query(Not3rDB.TABLE_NAME, null, selection + " like ?",
 				new String[] { "%" + keyword + "%" }, null, null, orderBy);
 		c.moveToFirst();
 		String[] from = { Not3rDB.COLUMN_CONTENT };
@@ -197,16 +194,16 @@ public class Not3rList extends Activity {
 			filterList(Not3rDB.COLUMN_COLOR, "");
 			break;
 		case 1:
-			filterList(Not3rDB.COLUMN_COLOR, Note.LIGHTBLUE);
+			filterList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTBLUE);
 			break;
 		case 2:
-			filterList(Not3rDB.COLUMN_COLOR, Note.LIGHTGREEN);
+			filterList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTGREEN);
 			break;
 		case 3:
-			filterList(Not3rDB.COLUMN_COLOR, Note.YELLOW);
+			filterList(Not3rDB.COLUMN_COLOR, Not3rDB.YELLOW);
 			break;
 		case 4:
-			filterList(Not3rDB.COLUMN_COLOR, Note.PINK);
+			filterList(Not3rDB.COLUMN_COLOR, Not3rDB.PINK);
 			break;
 		case 5:
 			filterList(Not3rDB.COLUMN_IMPORTANT, "1");

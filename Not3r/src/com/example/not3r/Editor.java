@@ -27,7 +27,7 @@ public class Editor extends Activity {
 	private Cursor c;
 	private long id;
 	private String content = "",
-			color = Note.colorSet[new Random().nextInt(4)];
+			color = Not3rDB.colorSet[new Random().nextInt(4)];
 
 	@SuppressLint("NewApi")
 	@Override
@@ -42,7 +42,7 @@ public class Editor extends Activity {
 		id = this.getIntent().getLongExtra("com.example.not3r.NOTE", -1);
 		if (id >= 0) {
 			db = mDBHelper.getWritableDatabase();
-			String sql = "SELECT * from " + Not3rDB.TABLE_NAME + " WHERE id="
+			String sql = "select * from " + Not3rDB.TABLE_NAME + " where _id="
 					+ id;
 			c = db.rawQuery(sql, null);
 			c.moveToFirst();

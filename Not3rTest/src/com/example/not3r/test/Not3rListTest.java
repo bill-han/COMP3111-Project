@@ -18,9 +18,8 @@ public class Not3rListTest extends ActivityInstrumentationTestCase2<Not3rList> {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
-	public void testStartActivity() {
-		solo.assertCurrentActivity("Not starting Not3rList now!",
-				Not3rList.class);
+	public void testActivity() {
+		solo.assertCurrentActivity("Testing Not3rList", Not3rList.class);
 	}
 
 	public void testNavigationDrawer() {
