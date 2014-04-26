@@ -1,21 +1,34 @@
 package com.example.not3r;
 
+import java.util.Calendar;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class Editor extends Activity {
@@ -91,6 +104,8 @@ public class Editor extends Activity {
 									onBackPressed();
 								}
 							}).setNegativeButton("NO", null).show();
+		case R.id.set_alarm:
+			setAlarm();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -111,4 +126,71 @@ public class Editor extends Activity {
 		}
 		NavUtils.navigateUpFromSameTask(this);
 	}
+	
+	public void setAlarm() {
+		View popupView = getLayoutInflater().inflate(R.layout.alarm, null);
+		System.out.println(popupView);
+		final PopupWindow alarm_setting = new PopupWindow(popupView,
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+		alarm_setting.setTouchable(true);
+		alarm_setting.setOutsideTouchable(true);
+		alarm_setting.setBackgroundDrawable(new BitmapDrawable(getResources(),
+				(Bitmap) null));
+
+		DatePicker datePicker;
+		TimePicker timePicker;
+		Button confirm;
+		Button cancel;
+		final Calendar c = Calendar.getInstance();
+		
+		final AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+		datePicker = (DatePicker) popupView.findViewById(R.id.datePicker);
+		datePicker.init(c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH),  
+                new DatePicker.OnDateChangedListener() {  
+                      
+                    @Override  
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear,  
+                            int dayOfMonth) { 
+                        c.set(year,monthOfYear,dayOfMonth);  
+                    }  
+                });
+		
+		timePicker = (TimePicker) popupView.findViewById(R.id.timePicker);
+		timePicker.setIs24HourView(true);  
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {  
+              
+            @Override  
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {  
+                c.set(Calendar.MINUTE,minute);
+                c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            }  
+        });
+        
+        confirm = (Button) popupView.findViewById(R.id.setAlarm);
+        confirm.setOnClickListener(new OnClickListener(){
+        	@Override  
+			public void onClick(View v) {
+        		Intent intent = new Intent(Editor.this,AlarmReceiver.class); 
+        		PendingIntent pendingIntent = PendingIntent.getBroadcast(Editor.this, 0, intent, 0);
+        		
+        		alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+				
+			}
+        });
+        
+        cancel = (Button) popupView.findViewById(R.id.disableAlarm);
+        cancel.setOnClickListener(new OnClickListener(){
+        	@Override  
+            public void onClick(View v) {
+        		Intent intent = new Intent(Editor.this,AlarmReceiver.class); 
+        		PendingIntent pendingIntent = PendingIntent.getBroadcast(Editor.this, 0, intent, 0);
+        		alarmManager.cancel(pendingIntent);
+        	}
+        });
+
+		alarm_setting.showAtLocation(this.findViewById(R.id.set_alarm),
+				Gravity.CENTER, 0, 0);
+	}
+	
 }
