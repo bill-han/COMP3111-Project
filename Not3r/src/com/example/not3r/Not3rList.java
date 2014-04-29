@@ -1,11 +1,16 @@
 package com.example.not3r;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -14,13 +19,16 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Not3rList extends Activity {
@@ -28,6 +36,7 @@ public class Not3rList extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
+	private Button tagSetting;
 
 	private Not3rDB mDBHelper;
 	private SQLiteDatabase db;
@@ -36,8 +45,9 @@ public class Not3rList extends Activity {
 	private ListView noteList;
 	private SearchView sv;
 
-	private String[] menu = { "All", "Blue", "Green", "Yellow", "Pink",
-			"Important" };
+	private static int currentTab = 0;
+	public static String[] tabs = { "All", "Important", "Personal", "Home",
+			"Work", "Others" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,23 +60,48 @@ public class Not3rList extends Activity {
 				R.string.drawer_close);
 		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.drawer_list_item, menu));
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+		loadDrawerList();
+
+		mDrawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				currentTab = position;
+				filter(position, "");
+				mDrawerLayout.closeDrawers();
+			}
+		});
+
+		tagSetting = (Button) findViewById(R.id.tag_setting);
+		tagSetting.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+				R.drawable.ic_action_settings, 0);
+		GradientDrawable gdDrawable = (GradientDrawable) getResources()
+				.getDrawable(R.drawable.corners_bg);
+		gdDrawable.setColor(Color.parseColor("#EEEEEE"));
+		tagSetting.setBackgroundResource(R.drawable.corners_bg);
+		tagSetting.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mDrawerLayout.closeDrawers();
+				Intent intent = new Intent(Not3rList.this, TagSetting.class);
+				startActivity(intent);
+			}
+		});
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mDBHelper = new Not3rDB(this);
 		db = mDBHelper.getWritableDatabase();
-		filterList(Not3rDB.COLUMN_CONTENT, "");
+		filter(currentTab, "");
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view,
 			ContextMenuInfo menuInfo) {
-		menu.setHeaderTitle("Options");
 		menu.add(0, 0, 0, "Delete");
-		menu.add(0, 1, 0, "Share");
 	}
 
 	@Override
@@ -78,14 +113,7 @@ public class Not3rList extends Activity {
 		case 0:
 			mDBHelper.delete(c.getInt(0));
 			Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
-			filterList(Not3rDB.COLUMN_CONTENT, "");
-			return true;
-		case 1:
-			Intent sendIntent = new Intent();
-			sendIntent.setAction(Intent.ACTION_SEND);
-			sendIntent.putExtra(Intent.EXTRA_TEXT, c.getString(2));
-			sendIntent.setType("text/plain");
-			startActivity(Intent.createChooser(sendIntent, ""));
+			filter(currentTab, "");
 			return true;
 		}
 		return super.onContextItemSelected(item);
@@ -126,7 +154,7 @@ public class Not3rList extends Activity {
 
 				@Override
 				public boolean onQueryTextChange(String newText) {
-					filterList(Not3rDB.COLUMN_CONTENT, newText);
+					filter(currentTab, newText);
 					return true;
 				}
 			});
@@ -143,27 +171,105 @@ public class Not3rList extends Activity {
 		return true;
 	}
 
-	public void newNote() {
-		Intent intent = new Intent(this, Editor.class);
-		startActivity(intent);
+	public void loadDrawerList() {
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.list_item, tabs) {
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				TextView view = (TextView) super.getView(position, convertView,
+						parent);
+				GradientDrawable gdDrawable = (GradientDrawable) getResources()
+						.getDrawable(R.drawable.corners_bg);
+				switch (position) {
+				case 0:
+					gdDrawable.setColor(Color.parseColor("#EEEEEE"));
+					break;
+				case 1:
+					gdDrawable.setColor(Color.parseColor(Not3rDB.ORANGE));
+					view.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+							R.drawable.ic_action_important, 0);
+					break;
+				case 2:
+					gdDrawable.setColor(Color.parseColor(Not3rDB.LIGHTBLUE));
+					break;
+				case 3:
+					gdDrawable.setColor(Color.parseColor(Not3rDB.LIGHTGREEN));
+					break;
+				case 4:
+					gdDrawable.setColor(Color.parseColor(Not3rDB.YELLOW));
+					break;
+				case 5:
+					gdDrawable.setColor(Color.parseColor(Not3rDB.PINK));
+					break;
+				}
+				view.setBackgroundResource(R.drawable.corners_bg);
+				return view;
+			}
+		});
 	}
 
-	public void filterList(String selection, String keyword) {
+	public void filter(int tab, String keyword) {
+		switch (tab) {
+		case 0:
+			loadNot3rList(Not3rDB.COLUMN_COLOR, "%", keyword);
+			break;
+		case 1:
+			loadNot3rList(Not3rDB.COLUMN_IMPORTANCE, "1", keyword);
+			break;
+		case 2:
+			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTBLUE, keyword);
+			break;
+		case 3:
+			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTGREEN, keyword);
+			break;
+		case 4:
+			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.YELLOW, keyword);
+			break;
+		case 5:
+			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.PINK, keyword);
+			break;
+		}
+	}
+
+	public void loadNot3rList(String selection, String arg, String keyword) {
 		String orderBy = Not3rDB.COLUMN_TIME + " desc";
-		c = db.query(Not3rDB.TABLE_NAME, null, selection + " like ?",
-				new String[] { "%" + keyword + "%" }, null, null, orderBy);
+		c = db.query(Not3rDB.TABLE_NAME, null, selection + " like ? and "
+				+ Not3rDB.COLUMN_CONTENT + " like ?", new String[] { arg,
+				"%" + keyword + "%" }, null, null, orderBy);
 		c.moveToFirst();
-		String[] from = { Not3rDB.COLUMN_CONTENT };
-		int[] to = { R.id.main_list_item };
+		String[] from = { Not3rDB.COLUMN_CONTENT, Not3rDB.COLUMN_TIME,
+				Not3rDB.COLUMN_IMPORTANCE };
+		int[] to = { R.id.note_content, R.id.note_time, R.id.note_importance };
 
 		noteList = (ListView) findViewById(R.id.note_list);
-		noteList.setAdapter(new SimpleCursorAdapter(this,
-				R.layout.main_list_item, c, from, to, 0) {
+		noteList.setAdapter(new SimpleCursorAdapter(this, R.layout.note_item,
+				c, from, to, 0) {
+
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				View view = super.getView(position, convertView, parent);
 				c.moveToPosition(position);
-				view.setBackgroundColor(Color.parseColor(c.getString(1)));
+				GradientDrawable gdDrawable = (GradientDrawable) getResources()
+						.getDrawable(R.drawable.corners_bg);
+				gdDrawable.setColor(Color.parseColor(c.getString(1)));
+				TextView timeView = (TextView) view
+						.findViewById(R.id.note_time);
+				String time = timeView.getText().toString(), current = new SimpleDateFormat(
+						"yyyy-MM-dd", Locale.getDefault()).format(new Date());
+				if (time.substring(0, 10).compareTo(current) < 0)
+					timeView.setText(time.subSequence(5, 10));
+				else
+					timeView.setText(time.subSequence(11, 16));
+				TextView starView = (TextView) view
+						.findViewById(R.id.note_importance);
+				starView.setText("");
+				if (c.getInt(4) == 1)
+					starView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+							R.drawable.ic_action_important, 0);
+				else
+					starView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+				view.setBackgroundResource(R.drawable.corners_bg);
 				return view;
 			}
 		});
@@ -172,42 +278,14 @@ public class Not3rList extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(Not3rList.this, Editor.class);
-				intent.putExtra("com.example.not3r.NOTE", id);
+				intent.putExtra("com.example.not3r.Note", id);
 				startActivity(intent);
 			}
 		});
 	}
 
-	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			selectItem(position);
-			mDrawerLayout.closeDrawers();
-		}
-	}
-
-	private void selectItem(int position) {
-		switch (position) {
-		case 0:
-			filterList(Not3rDB.COLUMN_COLOR, "");
-			break;
-		case 1:
-			filterList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTBLUE);
-			break;
-		case 2:
-			filterList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTGREEN);
-			break;
-		case 3:
-			filterList(Not3rDB.COLUMN_COLOR, Not3rDB.YELLOW);
-			break;
-		case 4:
-			filterList(Not3rDB.COLUMN_COLOR, Not3rDB.PINK);
-			break;
-		case 5:
-			filterList(Not3rDB.COLUMN_IMPORTANT, "1");
-			break;
-		}
+	public void newNote() {
+		Intent intent = new Intent(this, Editor.class);
+		startActivity(intent);
 	}
 }

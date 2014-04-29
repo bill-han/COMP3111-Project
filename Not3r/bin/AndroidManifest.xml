@@ -13,7 +13,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver android:name="com.example.not3r.AlarmReceiver" android:process=":remote" />
+        <receiver
+            android:name="com.example.not3r.NotificationReceiver"
+            android:process=":remote" />
+
         <activity
             android:name="com.example.not3r.Not3rList"
             android:label="@string/app_name" >
@@ -30,6 +33,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.not3r.NoteList" />
+        </activity>
+        <activity
+            android:name="com.example.not3r.TagSetting"
+            android:label="@string/tag_setting_title"
+            android:parentActivityName="com.example.not3r.Not3rList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.not3r.Not3rList" />
         </activity>
     </application>
 
