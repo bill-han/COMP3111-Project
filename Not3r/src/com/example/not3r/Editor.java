@@ -64,8 +64,8 @@ public class Editor extends Activity {
 			content = c.getString(2);
 			importance = c.getInt(4);
 			editing.setText(content);
-			editing.requestFocus();
 		}
+		editing.requestFocus();
 		layout.setBackgroundColor(Color.parseColor(color));
 	}
 
@@ -251,12 +251,15 @@ public class Editor extends Activity {
 						NotificationReceiver.class);
 				intent.putExtra("com.example.not3r.Reminder", editing.getText()
 						.toString());
+				intent.putExtra("com.example.not3r.Note", id);
 				PendingIntent pendingIntent = PendingIntent.getBroadcast(
 						Editor.this, 0, intent,
 						PendingIntent.FLAG_UPDATE_CURRENT);
 				alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),
 						pendingIntent);
 				reminderSetting.dismiss();
+				Toast.makeText(Editor.this, "Reminder added",
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -264,13 +267,13 @@ public class Editor extends Activity {
 	}
 
 	public void setImportance() {
-		if (importance == 0) {
-			Toast.makeText(this, "This note is important now",
+		importance ^= 1;
+		if (importance == 1) {
+			Toast.makeText(this, "This note is marked as important",
 					Toast.LENGTH_SHORT).show();
 		} else {
-			Toast.makeText(this, "This note is unimportant now",
+			Toast.makeText(this, "This note is marked as unimportant",
 					Toast.LENGTH_SHORT).show();
 		}
-		importance ^= 1;
 	}
 }

@@ -29,9 +29,7 @@
         android:background="#222426"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
-        android:orientation="vertical"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp" >
+        android:orientation="vertical" >
 
         <ListView
             android:id="@+id/left_drawer"

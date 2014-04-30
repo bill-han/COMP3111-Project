@@ -9,13 +9,13 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu">Menu</string>
     <string name="share">Share</string>
-    <string name="set_reminder">Set a remider</string>
+    <string name="set_reminder">Remider</string>
     <string name="change_color">Change color</string>
     <string name="delete">Delete</string>
     <string name="action_search">Search</string>
     <string name="description">Important</string>
     <string name="remind_me">Remind me later!</string>
-    <string name="set_importance">Set importance</string>
+    <string name="set_importance">Star/Unstar</string>
     <string name="tag_setting_title">Tag setting</string>
     <string name="tag_setting_hint">Rename:</string>
     <string name="save">Save</string>
