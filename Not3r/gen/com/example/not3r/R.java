@@ -22,16 +22,18 @@ public final class R {
     }
     public static final class drawable {
         public static final int corners_bg=0x7f020000;
-        public static final int ic_action_alarms=0x7f020001;
-        public static final int ic_action_discard=0x7f020002;
-        public static final int ic_action_important=0x7f020003;
-        public static final int ic_action_new=0x7f020004;
-        public static final int ic_action_overflow=0x7f020005;
-        public static final int ic_action_search=0x7f020006;
-        public static final int ic_action_settings=0x7f020007;
-        public static final int ic_action_share=0x7f020008;
-        public static final int ic_drawer=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
+        public static final int dot=0x7f020001;
+        public static final int ic_action_alarms=0x7f020002;
+        public static final int ic_action_discard=0x7f020003;
+        public static final int ic_action_important=0x7f020004;
+        public static final int ic_action_new=0x7f020005;
+        public static final int ic_action_overflow=0x7f020006;
+        public static final int ic_action_search=0x7f020007;
+        public static final int ic_action_settings=0x7f020008;
+        public static final int ic_action_share=0x7f020009;
+        public static final int ic_drawer=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int text_bg=0x7f02000c;
     }
     public static final class id {
         public static final int add_note=0x7f080019;

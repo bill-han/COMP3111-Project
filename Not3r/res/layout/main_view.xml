@@ -40,16 +40,19 @@
             android:layout_weight="1"
             android:choiceMode="singleChoice" />
 
-        <Button
+        <TextView
             android:id="@+id/tag_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/text_bg"
+            android:clickable="true"
             android:gravity="center_vertical"
             android:paddingBottom="15dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="15dp"
             android:text="@string/tag_setting_title"
+            android:textColor="#EEEEEE"
             android:textSize="20sp" />
     </LinearLayout>
 

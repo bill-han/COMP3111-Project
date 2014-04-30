@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
@@ -36,7 +35,7 @@ public class Not3rList extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private Button tagSetting;
+	private TextView tagSetting;
 
 	private Not3rDB mDBHelper;
 	private SQLiteDatabase db;
@@ -62,6 +61,7 @@ public class Not3rList extends Activity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		loadDrawerList();
+		mDrawerList.setItemChecked(currentTab, true);
 
 		mDrawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
 
@@ -69,22 +69,20 @@ public class Not3rList extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				currentTab = position;
-				filter(position, "");
+				mDrawerList.setItemChecked(currentTab, true);
+				filter(currentTab, "");
 				mDrawerLayout.closeDrawers();
 			}
 		});
 
-		tagSetting = (Button) findViewById(R.id.tag_setting);
+		tagSetting = (TextView) findViewById(R.id.tag_setting);
 		tagSetting.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 				R.drawable.ic_action_settings, 0);
-		GradientDrawable gdDrawable = (GradientDrawable) getResources()
-				.getDrawable(R.drawable.corners_bg);
-		gdDrawable.setColor(Color.parseColor("#EEEEEE"));
-		tagSetting.setBackgroundResource(R.drawable.corners_bg);
 		tagSetting.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				tagSetting.setSelected(true);
 				mDrawerLayout.closeDrawers();
 				Intent intent = new Intent(Not3rList.this, TagSetting.class);
 				startActivity(intent);
@@ -179,31 +177,37 @@ public class Not3rList extends Activity {
 			public View getView(int position, View convertView, ViewGroup parent) {
 				TextView view = (TextView) super.getView(position, convertView,
 						parent);
+				view.setTextColor(Color.parseColor("#EEEEEE"));
 				GradientDrawable gdDrawable = (GradientDrawable) getResources()
-						.getDrawable(R.drawable.corners_bg);
+						.getDrawable(R.drawable.dot);
 				switch (position) {
 				case 0:
-					gdDrawable.setColor(Color.parseColor("#EEEEEE"));
 					break;
 				case 1:
-					gdDrawable.setColor(Color.parseColor(Not3rDB.ORANGE));
 					view.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 							R.drawable.ic_action_important, 0);
 					break;
 				case 2:
 					gdDrawable.setColor(Color.parseColor(Not3rDB.LIGHTBLUE));
+					view.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+							R.drawable.dot, 0);
 					break;
 				case 3:
 					gdDrawable.setColor(Color.parseColor(Not3rDB.LIGHTGREEN));
+					view.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+							R.drawable.dot, 0);
 					break;
 				case 4:
 					gdDrawable.setColor(Color.parseColor(Not3rDB.YELLOW));
+					view.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+							R.drawable.dot, 0);
 					break;
 				case 5:
 					gdDrawable.setColor(Color.parseColor(Not3rDB.PINK));
+					view.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+							R.drawable.dot, 0);
 					break;
 				}
-				view.setBackgroundResource(R.drawable.corners_bg);
 				return view;
 			}
 		});
