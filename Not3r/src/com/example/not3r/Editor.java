@@ -137,8 +137,13 @@ public class Editor extends Activity {
 	}
 
 	public void changeColor() {
+		GradientDrawable gradDrawable = (GradientDrawable) getResources()
+				.getDrawable(R.drawable.corners_bg);
+		gradDrawable.setColor(Color.parseColor("#EEEEEE"));
 		View popupView = getLayoutInflater().inflate(R.layout.color_setting,
 				null);
+		popupView.setBackgroundResource(R.drawable.corners_bg);
+		
 		final PopupWindow colorSetting = new PopupWindow(popupView,
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
 		colorSetting.setTouchable(true);
@@ -200,8 +205,12 @@ public class Editor extends Activity {
 	}
 
 	public void setReminder() {
+		GradientDrawable gradDrawable = (GradientDrawable) getResources()
+				.getDrawable(R.drawable.corners_bg);
+		gradDrawable.setColor(Color.parseColor("#EEEEEE"));
 		View popupView = getLayoutInflater().inflate(R.layout.reminder_setting,
 				null);
+		popupView.setBackgroundResource(R.drawable.corners_bg);
 		final PopupWindow reminderSetting = new PopupWindow(popupView,
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
 		reminderSetting.setTouchable(true);
