@@ -237,10 +237,17 @@ public class Not3rList extends Activity {
 	}
 
 	public void loadNot3rList(String selection, String arg, String keyword) {
-		String orderBy = Not3rDB.COLUMN_TIME + " desc";
-		c = db.query(Not3rDB.TABLE_NAME, null, selection + " like ? and "
-				+ Not3rDB.COLUMN_CONTENT + " like ?", new String[] { arg,
-				"%" + keyword + "%" }, null, null, orderBy);
+		selection += " like ?";
+		String[] keywords = keyword.split(" ");
+		String[] selectionArgs = new String[keywords.length + 1];
+		selectionArgs[0] = arg;
+		for (int i = 0; i < keywords.length; i++) {
+			selection += " and " + Not3rDB.COLUMN_CONTENT + " like ?";
+			selectionArgs[i + 1] = "%" + keywords[i] + "%";
+		}
+
+		c = db.query(Not3rDB.TABLE_NAME, null, selection, selectionArgs, null,
+				null, Not3rDB.COLUMN_TIME + " desc");
 		c.moveToFirst();
 		String[] from = { Not3rDB.COLUMN_CONTENT, Not3rDB.COLUMN_TIME,
 				Not3rDB.COLUMN_IMPORTANCE };

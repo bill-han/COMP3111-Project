@@ -137,15 +137,15 @@ public class Editor extends Activity {
 	}
 
 	public void changeColor() {
-		GradientDrawable gradDrawable = (GradientDrawable) getResources()
-				.getDrawable(R.drawable.corners_bg);
-		gradDrawable.setColor(Color.parseColor("#EEEEEE"));
 		View popupView = getLayoutInflater().inflate(R.layout.color_setting,
 				null);
-		popupView.setBackgroundResource(R.drawable.corners_bg);
-		
 		final PopupWindow colorSetting = new PopupWindow(popupView,
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+
+		GradientDrawable gdDrawable = (GradientDrawable) getResources()
+				.getDrawable(R.drawable.corners_bg);
+		gdDrawable.setColor(Color.parseColor("#EEEEEE"));
+		popupView.setBackgroundResource(R.drawable.corners_bg);
 		colorSetting.setTouchable(true);
 		colorSetting.setOutsideTouchable(true);
 		colorSetting.setBackgroundDrawable(new BitmapDrawable(getResources(),
@@ -205,14 +205,15 @@ public class Editor extends Activity {
 	}
 
 	public void setReminder() {
-		GradientDrawable gradDrawable = (GradientDrawable) getResources()
-				.getDrawable(R.drawable.corners_bg);
-		gradDrawable.setColor(Color.parseColor("#EEEEEE"));
 		View popupView = getLayoutInflater().inflate(R.layout.reminder_setting,
 				null);
-		popupView.setBackgroundResource(R.drawable.corners_bg);
 		final PopupWindow reminderSetting = new PopupWindow(popupView,
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+
+		GradientDrawable gdDrawable = (GradientDrawable) getResources()
+				.getDrawable(R.drawable.corners_bg);
+		gdDrawable.setColor(Color.parseColor("#EEEEEE"));
+		popupView.setBackgroundResource(R.drawable.corners_bg);
 		reminderSetting.setTouchable(true);
 		reminderSetting.setOutsideTouchable(true);
 		reminderSetting.setBackgroundDrawable(new BitmapDrawable(
@@ -249,8 +250,6 @@ public class Editor extends Activity {
 				});
 
 		confirm = (Button) popupView.findViewById(R.id.confirm);
-		GradientDrawable gdDrawable = (GradientDrawable) getResources()
-				.getDrawable(R.drawable.corners_bg);
 		gdDrawable.setColor(Color.parseColor("#B3D465"));
 		confirm.setBackgroundResource(R.drawable.corners_bg);
 		confirm.setOnClickListener(new OnClickListener() {
