@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,8 +46,6 @@ public class Not3rList extends Activity {
 	private SearchView sv;
 
 	private static int currentTab = 0;
-	public static String[] tabs = { "All", "Important", "Personal", "Home",
-			"Work", "Others" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -170,8 +169,18 @@ public class Not3rList extends Activity {
 	}
 
 	public void loadDrawerList() {
+		SharedPreferences sharedPref = this.getSharedPreferences("Not3rTags",
+				MODE_PRIVATE);
+		String[] tab = new String[6];
+		tab[0] = "All";
+		tab[1] = "Important";
+		tab[2] = sharedPref.getString("0", "Personal");
+		tab[3] = sharedPref.getString("1", "Home");
+		tab[4] = sharedPref.getString("2", "Work");
+		tab[5] = sharedPref.getString("3", "Others");
+
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.list_item, tabs) {
+				R.layout.list_item, tab) {
 
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
@@ -213,37 +222,37 @@ public class Not3rList extends Activity {
 		});
 	}
 
-	public void filter(int tab, String keyword) {
+	public void filter(int tab, String query) {
 		switch (tab) {
 		case 0:
-			loadNot3rList(Not3rDB.COLUMN_COLOR, "%", keyword);
+			loadNot3rList(Not3rDB.COLUMN_COLOR, "%", query);
 			break;
 		case 1:
-			loadNot3rList(Not3rDB.COLUMN_IMPORTANCE, "1", keyword);
+			loadNot3rList(Not3rDB.COLUMN_IMPORTANCE, "1", query);
 			break;
 		case 2:
-			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTBLUE, keyword);
+			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTBLUE, query);
 			break;
 		case 3:
-			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTGREEN, keyword);
+			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.LIGHTGREEN, query);
 			break;
 		case 4:
-			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.YELLOW, keyword);
+			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.YELLOW, query);
 			break;
 		case 5:
-			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.PINK, keyword);
+			loadNot3rList(Not3rDB.COLUMN_COLOR, Not3rDB.PINK, query);
 			break;
 		}
 	}
 
-	public void loadNot3rList(String selection, String arg, String keyword) {
+	public void loadNot3rList(String selection, String arg, String query) {
 		selection += " like ?";
-		String[] keywords = keyword.split(" ");
-		String[] selectionArgs = new String[keywords.length + 1];
+		String[] keyword = query.split(" ");
+		String[] selectionArgs = new String[keyword.length + 1];
 		selectionArgs[0] = arg;
-		for (int i = 0; i < keywords.length; i++) {
+		for (int i = 0; i < keyword.length; i++) {
 			selection += " and " + Not3rDB.COLUMN_CONTENT + " like ?";
-			selectionArgs[i + 1] = "%" + keywords[i] + "%";
+			selectionArgs[i + 1] = "%" + keyword[i] + "%";
 		}
 
 		c = db.query(Not3rDB.TABLE_NAME, null, selection, selectionArgs, null,

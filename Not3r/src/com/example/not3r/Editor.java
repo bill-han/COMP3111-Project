@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -45,8 +46,6 @@ public class Editor extends Activity {
 	private long id;
 	private String content = "", color = Not3rDB.LIGHTBLUE;
 	private int importance = 0;
-
-	public static String[] tags = { "Personal", "Home", "Work", "Others" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -151,9 +150,17 @@ public class Editor extends Activity {
 		colorSetting.setBackgroundDrawable(new BitmapDrawable(getResources(),
 				(Bitmap) null));
 
+		SharedPreferences sharedPref = this.getSharedPreferences("Not3rTags",
+				MODE_PRIVATE);
+		String[] tag = new String[4];
+		tag[0] = sharedPref.getString("0", "Personal");
+		tag[1] = sharedPref.getString("1", "Home");
+		tag[2] = sharedPref.getString("2", "Work");
+		tag[3] = sharedPref.getString("3", "Others");
+
 		ListView colorList = (ListView) popupView.findViewById(R.id.color_list);
 		colorList.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item,
-				tags) {
+				tag) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				TextView view = (TextView) super.getView(position, convertView,

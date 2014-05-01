@@ -3,7 +3,11 @@
     android:shape="oval" >
 
     <size
-        android:height="25dp"
-        android:width="25dp" />
+        android:height="32dp"
+        android:width="32dp" />
+
+    <stroke
+        android:width="10dp"
+        android:color="#00000000" />
 
 </shape>
