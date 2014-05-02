@@ -21,13 +21,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle("Not3r!")
 				.setContentText(
-						intent.getStringExtra("com.example.not3r.Reminder"))
+						intent.getStringExtra("com.example.not3r.REMINDER"))
 				.setTicker("Things to do!").setAutoCancel(true);
 
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 		Intent newIntent = new Intent(context, Editor.class);
-		newIntent.putExtra("com.example.not3r.Note",
-				intent.getLongExtra("com.example.not3r.Note", -1));
+		newIntent.putExtra("com.example.not3r.NOTE",
+				intent.getLongExtra("com.example.not3r.NOTE", -1));
 		newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		stackBuilder.addParentStack(Editor.class);
 		stackBuilder.addNextIntent(newIntent);

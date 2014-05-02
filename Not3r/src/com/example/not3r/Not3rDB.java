@@ -36,10 +36,10 @@ public class Not3rDB extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String sql = "create table " + TABLE_NAME + " (" + COLUMN_ID
-				+ " integer primary key, " + COLUMN_COLOR + " text, "
-				+ COLUMN_CONTENT + " text, " + COLUMN_TIME + " text, "
-				+ COLUMN_IMPORTANCE + " integer)";
+		String sql = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_ID
+				+ " INTEGER PRIMARY KEY, " + COLUMN_COLOR + " TEXT, "
+				+ COLUMN_CONTENT + " TEXT, " + COLUMN_TIME + " TEXT, "
+				+ COLUMN_IMPORTANCE + " INTEGER)";
 		db.execSQL(sql);
 	}
 
@@ -49,41 +49,45 @@ public class Not3rDB extends SQLiteOpenHelper {
 
 	public void insert(String color, String content, int importance) {
 		SQLiteDatabase db = getWritableDatabase();
-		ContentValues cv = new ContentValues();
-		cv.put(COLUMN_COLOR, color);
-		cv.put(COLUMN_CONTENT, content);
-		cv.put(COLUMN_TIME,
-				new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-						.format(new Date()));
-		cv.put(COLUMN_IMPORTANCE, importance);
-		db.insert(TABLE_NAME, null, cv);
+		ContentValues values = new ContentValues();
+		values.put(COLUMN_COLOR, color);
+		values.put(COLUMN_CONTENT, content);
+		values.put(COLUMN_TIME, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+				Locale.getDefault()).format(new Date()));
+		values.put(COLUMN_IMPORTANCE, importance);
+		db.insert(TABLE_NAME, null, values);
 	}
 
 	public void delete(long id) {
 		SQLiteDatabase db = getWritableDatabase();
-		String whereClause = COLUMN_ID + "=?";
-		String[] whereArgs = { Long.toString(id) };
-		db.delete(TABLE_NAME, whereClause, whereArgs);
+		db.delete(TABLE_NAME, COLUMN_ID + " = ?",
+				new String[] { Long.toString(id) });
 	}
 
 	public void update(long id, String color, String content, int importance) {
 		SQLiteDatabase db = getWritableDatabase();
-		String whereClause = COLUMN_ID + "=?";
-		String[] whereArgs = { Long.toString(id) };
-		ContentValues cv = new ContentValues();
-		cv.put(COLUMN_COLOR, color);
-		cv.put(COLUMN_CONTENT, content);
-		cv.put(COLUMN_TIME,
-				new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-						.format(new Date()));
-		cv.put(COLUMN_IMPORTANCE, importance);
-		db.update(TABLE_NAME, cv, whereClause, whereArgs);
+		ContentValues values = new ContentValues();
+		values.put(COLUMN_COLOR, color);
+		values.put(COLUMN_CONTENT, content);
+		values.put(COLUMN_TIME, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+				Locale.getDefault()).format(new Date()));
+		values.put(COLUMN_IMPORTANCE, importance);
+		db.update(TABLE_NAME, values, COLUMN_ID + " = ?",
+				new String[] { Long.toString(id) });
 	}
 
-	public Cursor selectFromId(long id) {
-		SQLiteDatabase db = getWritableDatabase();
-		String sql = "select * from " + Not3rDB.TABLE_NAME + " where _id=" + id;
-		Cursor c = db.rawQuery(sql, null);
+	public Cursor selectFrom(String selection, String[] selectionArgs) {
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor c = db.query(TABLE_NAME, null, selection, selectionArgs, null,
+				null, COLUMN_TIME + " DESC");
+		c.moveToFirst();
+		return c;
+	}
+
+	public Cursor selectFrom(long id) {
+		SQLiteDatabase db = getReadableDatabase();
+		Cursor c = db.query(TABLE_NAME, null, COLUMN_ID + " = ?",
+				new String[] { Long.toString(id) }, null, null, null);
 		c.moveToFirst();
 		return c;
 	}

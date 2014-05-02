@@ -56,9 +56,9 @@ public class Editor extends Activity {
 		editing = (EditText) findViewById(R.id.editor);
 		mDBHelper = new Not3rDB(this);
 
-		id = this.getIntent().getLongExtra("com.example.not3r.Note", -1);
+		id = this.getIntent().getLongExtra("com.example.not3r.NOTE", -1);
 		if (id >= 0) {
-			c = mDBHelper.selectFromId(id);
+			c = mDBHelper.selectFrom(id);
 			color = c.getString(1);
 			content = c.getString(2);
 			importance = c.getInt(4);
@@ -150,8 +150,8 @@ public class Editor extends Activity {
 		colorSetting.setBackgroundDrawable(new BitmapDrawable(getResources(),
 				(Bitmap) null));
 
-		SharedPreferences sharedPref = this.getSharedPreferences("Not3rTags",
-				MODE_PRIVATE);
+		SharedPreferences sharedPref = this.getSharedPreferences(
+				"com.example.not3r.TAG", MODE_PRIVATE);
 		String[] tag = new String[4];
 		tag[0] = sharedPref.getString("0", "Personal");
 		tag[1] = sharedPref.getString("1", "Home");
@@ -264,9 +264,9 @@ public class Editor extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Editor.this,
 						NotificationReceiver.class);
-				intent.putExtra("com.example.not3r.Reminder", editing.getText()
+				intent.putExtra("com.example.not3r.REMINDER", editing.getText()
 						.toString());
-				intent.putExtra("com.example.not3r.Note", id);
+				intent.putExtra("com.example.not3r.NOTE", id);
 				PendingIntent pendingIntent = PendingIntent.getBroadcast(
 						Editor.this, 0, intent,
 						PendingIntent.FLAG_UPDATE_CURRENT);

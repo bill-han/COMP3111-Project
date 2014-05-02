@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -39,7 +38,6 @@ public class Not3rList extends Activity {
 	private TextView tagSetting;
 
 	private Not3rDB mDBHelper;
-	private SQLiteDatabase db;
 	private Cursor c;
 
 	private ListView noteList;
@@ -91,7 +89,6 @@ public class Not3rList extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mDBHelper = new Not3rDB(this);
-		db = mDBHelper.getWritableDatabase();
 		filter(currentTab, "");
 	}
 
@@ -169,8 +166,8 @@ public class Not3rList extends Activity {
 	}
 
 	public void loadDrawerList() {
-		SharedPreferences sharedPref = this.getSharedPreferences("Not3rTags",
-				MODE_PRIVATE);
+		SharedPreferences sharedPref = this.getSharedPreferences(
+				"com.example.not3r.TAG", MODE_PRIVATE);
 		String[] tab = new String[6];
 		tab[0] = "All";
 		tab[1] = "Important";
@@ -246,18 +243,16 @@ public class Not3rList extends Activity {
 	}
 
 	public void loadNot3rList(String selection, String arg, String query) {
-		selection += " like ?";
+		selection += " LIKE ?";
 		String[] keyword = query.split(" ");
 		String[] selectionArgs = new String[keyword.length + 1];
 		selectionArgs[0] = arg;
 		for (int i = 0; i < keyword.length; i++) {
-			selection += " and " + Not3rDB.COLUMN_CONTENT + " like ?";
+			selection += " AND " + Not3rDB.COLUMN_CONTENT + " LIKE ?";
 			selectionArgs[i + 1] = "%" + keyword[i] + "%";
 		}
 
-		c = db.query(Not3rDB.TABLE_NAME, null, selection, selectionArgs, null,
-				null, Not3rDB.COLUMN_TIME + " desc");
-		c.moveToFirst();
+		c = mDBHelper.selectFrom(selection, selectionArgs);
 		String[] from = { Not3rDB.COLUMN_CONTENT, Not3rDB.COLUMN_TIME,
 				Not3rDB.COLUMN_IMPORTANCE };
 		int[] to = { R.id.note_content, R.id.note_time, R.id.note_importance };
@@ -298,7 +293,7 @@ public class Not3rList extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent intent = new Intent(Not3rList.this, Editor.class);
-				intent.putExtra("com.example.not3r.Note", id);
+				intent.putExtra("com.example.not3r.NOTE", id);
 				startActivity(intent);
 			}
 		});

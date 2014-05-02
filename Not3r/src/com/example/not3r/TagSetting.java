@@ -30,7 +30,8 @@ public class TagSetting extends Activity {
 
 		GradientDrawable gdDrawable = (GradientDrawable) getResources()
 				.getDrawable(R.drawable.corners_bg);
-		sharedPref = this.getSharedPreferences("Not3rTags", MODE_PRIVATE);
+		sharedPref = this.getSharedPreferences("com.example.not3r.TAG",
+				MODE_PRIVATE);
 		editor = sharedPref.edit();
 
 		item[0] = (EditText) layout.findViewById(R.id.tag0);
