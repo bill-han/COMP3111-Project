@@ -36,25 +36,26 @@ public final class R {
         public static final int text_bg=0x7f02000c;
     }
     public static final class id {
-        public static final int add_note=0x7f080019;
-        public static final int change_color=0x7f080013;
+        public static final int add_note=0x7f08001a;
+        public static final int change_color=0x7f080014;
         public static final int color_list=0x7f080000;
         public static final int confirm=0x7f08000c;
         public static final int date_picker=0x7f08000a;
-        public static final int delete=0x7f080017;
+        public static final int delete=0x7f080018;
         public static final int drawer_layout=0x7f080003;
         public static final int editor=0x7f080002;
         public static final int editor_layout=0x7f080001;
         public static final int left_drawer=0x7f080005;
+        public static final int menu=0x7f080013;
         public static final int note_content=0x7f080007;
         public static final int note_importance=0x7f080009;
         public static final int note_list=0x7f080004;
         public static final int note_time=0x7f080008;
         public static final int save=0x7f080012;
-        public static final int search=0x7f080018;
-        public static final int set_importance=0x7f080014;
-        public static final int set_reminder=0x7f080015;
-        public static final int share=0x7f080016;
+        public static final int search=0x7f080019;
+        public static final int set_importance=0x7f080015;
+        public static final int set_reminder=0x7f080016;
+        public static final int share=0x7f080017;
         public static final int tag0=0x7f08000e;
         public static final int tag1=0x7f08000f;
         public static final int tag2=0x7f080010;
