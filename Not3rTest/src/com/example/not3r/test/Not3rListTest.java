@@ -18,35 +18,53 @@ public class Not3rListTest extends ActivityInstrumentationTestCase2<Not3rList> {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
-	public void testaActivity() {
+	public void test00_Activity() {
 		solo.assertCurrentActivity("Testing Not3rList", Not3rList.class);
 	}
-	
-	public void testbSearch() {
+
+	public void test01_Search() {
 		solo.clickOnView(solo.getView(com.example.not3r.R.id.search));
 		solo.typeText(0, "t");
 	}
-	
-	public void testcNavigationDrawer_star() {
-		solo.setNavigationDrawer(Solo.OPENED);
-		solo.clickOnText("Important");
-		solo.setNavigationDrawer(Solo.CLOSED);
-	}
-	
-	public void testdDelete() {
-		solo.clickLongInList(1);
+
+	public void test02_Delete() {
+		solo.clickLongOnText("test");
 		solo.clickInList(1);
 	}
-	
-	public void testeTagSetting() {
+
+	public void test03_NavigationDrawer01() {
 		solo.setNavigationDrawer(Solo.OPENED);
-		solo.clickOnText("Tag setting");
-		solo.clearEditText(2);
-		solo.enterText(2, "test");
-		solo.clearEditText(2);
-		solo.enterText(2, "Work");
-		solo.clickOnText("Save");
-		//solo.setNavigationDrawer(Solo.CLOSED);
+		solo.clickOnText("All");
 	}
-	
+
+	public void test04_NavigationDrawer02() {
+		solo.setNavigationDrawer(Solo.OPENED);
+		solo.clickOnText("Important");
+	}
+
+	public void test05_NavigationDrawer03() {
+		solo.setNavigationDrawer(Solo.OPENED);
+		solo.clickOnText("Personal");
+	}
+
+	public void test06_NavigationDrawer04() {
+		solo.setNavigationDrawer(Solo.OPENED);
+		solo.clickOnText("Home");
+	}
+
+	public void test07_NavigationDrawer05() {
+		solo.setNavigationDrawer(Solo.OPENED);
+		solo.clickOnText("Work");
+	}
+
+	public void test08_NavigationDrawer06() {
+		solo.setNavigationDrawer(Solo.OPENED);
+		solo.clickOnText("Others");
+	}
+
+	public void test09_AddNote() {
+		solo.clickOnActionBarItem(com.example.not3r.R.id.add_note);
+		solo.clickOnActionBarHomeButton();
+	}
+
 }

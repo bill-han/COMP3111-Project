@@ -78,6 +78,5 @@ public class TagSetting extends Activity {
 		editor.putString("3", item[3].getText().toString());
 		editor.commit();
 		Toast.makeText(this, "Tags saved", Toast.LENGTH_SHORT).show();
-		onBackPressed();
 	}
 }

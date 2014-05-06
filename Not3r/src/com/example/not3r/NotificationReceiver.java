@@ -10,8 +10,6 @@ import android.support.v4.app.TaskStackBuilder;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
-	private static int NOTIFICATION_ID = 0;
-
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		NotificationManager notificationManager = (NotificationManager) context
@@ -35,7 +33,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		mBuilder.setContentIntent(contentIntent);
 
-		notificationManager.notify(NOTIFICATION_ID++, mBuilder.build());
+		notificationManager.notify(
+				(int) intent.getLongExtra("com.example.not3r.NOTE", -1),
+				mBuilder.build());
 	}
 
 }

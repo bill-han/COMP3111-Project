@@ -251,6 +251,7 @@ public class Editor extends Activity {
 					@Override
 					public void onTimeChanged(TimePicker view, int hourOfDay,
 							int minute) {
+						c.set(Calendar.SECOND, 0);
 						c.set(Calendar.MINUTE, minute);
 						c.set(Calendar.HOUR_OF_DAY, hourOfDay);
 					}
