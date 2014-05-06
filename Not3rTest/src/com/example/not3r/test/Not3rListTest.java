@@ -1,6 +1,7 @@
 package com.example.not3r.test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.EditText;
 
 import com.example.not3r.Not3rList;
 import com.robotium.solo.Solo;
@@ -64,6 +65,9 @@ public class Not3rListTest extends ActivityInstrumentationTestCase2<Not3rList> {
 
 	public void test09_AddNote() {
 		solo.clickOnActionBarItem(com.example.not3r.R.id.add_note);
+		EditText editor = (EditText) solo
+				.getView(com.example.not3r.R.id.editor);
+		solo.typeText(editor, "test");
 		solo.clickOnActionBarHomeButton();
 	}
 
